@@ -1,3 +1,5 @@
+export const runtime = "nodejs"; // ВАЖЛИВО: дозволяє використовувати Buffer на Vercel
+
 export async function POST(req: Request) {
   const { prompt } = await req.json();
 
@@ -17,14 +19,25 @@ export async function POST(req: Request) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      return new Response(JSON.stringify({ error: "Image generation failed", raw: errorText }), { status: 500 });
+      console.error("❌ HuggingFace API error:", errorText);
+      return new Response(
+        JSON.stringify({ error: "Image generation failed", raw: errorText }),
+        { status: 500 }
+      );
     }
 
     const imageBuffer = await response.arrayBuffer();
     const base64 = Buffer.from(imageBuffer).toString("base64");
 
-    return new Response(JSON.stringify({ base64 }), { status: 200 });
+    return new Response(JSON.stringify({ base64 }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err: any) {
-    return new Response(JSON.stringify({ error: "Server error", message: err.message }), { status: 500 });
+    console.error("❌ Server error:", err.message);
+    return new Response(
+      JSON.stringify({ error: "Server error", message: err.message }),
+      { status: 500 }
+    );
   }
 }
