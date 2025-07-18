@@ -1,20 +1,42 @@
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white px-6 py-20 flex flex-col items-center justify-center text-center">
-      <h1 className="text-4xl md:text-6xl font-bold max-w-4xl leading-tight">
-        Automate your business with <span className="text-purple-400">ChatGPT</span>
-      </h1>
-      <p className="mt-6 text-lg md:text-xl max-w-xl text-gray-300">
-        Save hours every week with smart tools that generate presentations, send dynamic emails, and connect to your systems — built for founders & coaches.
+    <main className="max-w-3xl mx-auto">
+      <h1 className="text-4xl font-bold mb-4 text-center">GPTBoost</h1>
+      <p className="text-gray-700 text-center mb-8">
+        AI-powered deck generator and business automations.
       </p>
-      <a
-        href="https://www.fiverr.com/s/bdjQPlY"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-8 bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-xl text-lg transition"
-      >
-        🔧 Order on Fiverr
-      </a>
+
+      <div className="flex gap-2 mb-6 justify-center">
+        <input
+          type="text"
+          placeholder="Your project name"
+          className="border border-gray-300 rounded px-4 py-2 w-full max-w-sm"
+        />
+        <button className="bg-blue-600 text-white px-4 py-2 rounded">
+          Generate Slides
+        </button>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
+        <div>
+          <h2 className="text-xl font-semibold">Slide 1</h2>
+          <p>Welcome to your automated pitch deck.</p>
+        </div>
+        <div>
+          <h2 className="text-xl font-semibold">Slide 2</h2>
+          <p>This slide was generated using GPTBoost AI.</p>
+        </div>
+      </div>
+
+      <div className="text-center mt-6">
+        <a
+          href="https://fiverr.com"
+          target="_blank"
+          className="text-blue-500 underline"
+        >
+          Hire me on Fiverr
+        </a>
+      </div>
     </main>
-  );
+  )
 }
