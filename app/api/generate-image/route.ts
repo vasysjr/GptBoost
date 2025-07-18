@@ -1,32 +1,33 @@
-export const runtime = "nodejs"; // ВАЖЛИВО: дозволяє використовувати Buffer на Vercel
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   const { prompt } = await req.json();
 
   if (!prompt) {
-    return new Response(JSON.stringify({ error: "No prompt provided" }), { status: 400 });
+    return new Response(JSON.stringify({ error: "No prompt provided" }), {
+      status: 400,
+    });
   }
 
   try {
-    const response = await fetch("https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.HUGGINGFACE_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ inputs: prompt }),
-    });
-    console.log("📤 Prompt:", prompt);
-console.log("📥 HuggingFace status:", response.status);
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.HUGGINGFACE_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ inputs: prompt }),
+      }
+    );
 
+    console.log("📤 Prompt:", prompt);
+    console.log("📥 HuggingFace status:", response.status);
 
     if (!response.ok) {
       const errorText = await response.text();
-console.error("❌ HuggingFace API error:", errorText);
-return new Response(
-  JSON.stringify({ error: "Image generation failed", raw: errorText }),
-  { status: 500 }
-);
+      console.error("❌ HuggingFace API error:", errorText);
       return new Response(
         JSON.stringify({ error: "Image generation failed", raw: errorText }),
         { status: 500 }
