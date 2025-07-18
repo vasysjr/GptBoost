@@ -4,8 +4,8 @@ export async function POST(req: Request) {
   const messages = [
     {
       role: "system",
-      content: "You are an API backend. Your ONLY job is to return pure JSON with two keys: 'problem' and 'solution'. Do NOT include any extra text, explanations or formatting — only valid JSON.",
-
+      content:
+        "Respond ONLY with raw JSON. No explanation. Format: {\"problem\": \"...\", \"solution\": \"...\"}. Do not include any other text.",
     },
     {
       role: "user",
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         "X-Title": "GPTBoost AI Deck Generator",
       },
       body: JSON.stringify({
-        model: "openai/gpt-3.5-turbo",
+        model: "mistralai/mixtral-8x7b", // НАДІЙНІШЕ НІЖ GPT
         messages,
         temperature: 0.7,
       }),
@@ -36,16 +36,22 @@ export async function POST(req: Request) {
 
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-      console.log("❌ No valid JSON found in response");
-      return new Response(JSON.stringify({ error: "No valid JSON", raw: text }), { status: 500 });
+      return new Response(
+        JSON.stringify({
+          error: "No valid JSON found",
+          raw: text,
+        }),
+        { status: 500 }
+      );
     }
 
     const parsed = JSON.parse(jsonMatch[0]);
     return new Response(JSON.stringify(parsed), { status: 200 });
   } catch (err: any) {
     console.error("❌ API error:", err);
-    return new Response(JSON.stringify({ error: "API call failed", message: err.message }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ error: "API call failed", message: err.message }),
+      { status: 500 }
+    );
   }
 }
