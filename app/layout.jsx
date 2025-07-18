@@ -1,5 +1,7 @@
 import './styles/globals.css'
-
+<head> 
+  <link rel="icon" href="/favicon.ico" />
+</head>
 export const metadata = {
   title: 'GPTBoost',
   description: 'AI-powered deck generator and business automations.',

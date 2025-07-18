@@ -54,7 +54,7 @@ export default function Page() {
     }
   };
 
-  return (
+  return  (
     <main className="min-h-screen bg-gray-50 text-gray-800 px-4 py-12 flex flex-col items-center">
       <h1 className="text-4xl md:text-5xl font-bold mb-4">GPTBoost</h1>
       <p className="text-lg md:text-xl text-gray-600 mb-8 text-center max-w-2xl">
@@ -79,6 +79,25 @@ export default function Page() {
         >
           {loading ? 'Generating…' : 'Generate Deck'}
         </button>
+        {slides.length > 0 && (
+  <button
+    onClick={() => {
+      const text = slides
+        .map(
+          (s, i) =>
+            `${i + 1}. ${s.slide_title}\n${s.content.map((c) => `- ${c}`).join("\n")}`
+        )
+        .join("\n\n");
+
+      navigator.clipboard.writeText(text);
+      alert("✅ Slides copied to clipboard!");
+    }}
+    className="mt-4 text-sm text-gray-600 underline hover:text-gray-800 transition"
+  >
+    📋 Copy all slides
+  </button>
+)}
+
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl w-full">
@@ -113,6 +132,10 @@ export default function Page() {
             </motion.div>
           ))}
         </AnimatePresence>
+        <footer className="mt-16 text-sm text-gray-400 text-center">
+  Built with ❤️ by GPTBoost · © {new Date().getFullYear()}
+</footer>
+
       </div>
     </main>
   );
