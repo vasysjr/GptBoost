@@ -5,18 +5,35 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Page() {
   const [input, setInput] = useState('');
   const [slides, setSlides] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleGenerate = () => {
-    setSlides([
-      {
-        title: 'Problem',
-        description: 'Many small businesses struggle to create effective pitch decks without expensive tools or designers.',
-      },
-      {
-        title: 'Solution',
-        description: 'GPTBoost instantly generates high-quality slide content powered by AI, tailored to your business idea.',
-      },
-    ]);
+  const handleGenerate = async () => {
+    if (!input.trim()) return;
+    setLoading(true);
+    setSlides([]); // Очистити попередні слайди
+
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idea: input }),
+      });
+
+      const data = await res.json();
+      if (data.problem && data.solution) {
+        setSlides([
+          { title: 'Problem', description: data.problem },
+          { title: 'Solution', description: data.solution },
+        ]);
+      } else {
+        throw new Error('Invalid response from API');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong while generating slides.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -39,9 +56,10 @@ export default function Page() {
         />
         <button
           onClick={handleGenerate}
-          className="mt-4 w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
+          disabled={loading}
+          className="mt-4 w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition disabled:opacity-50"
         >
-          Generate Slides
+          {loading ? 'Generating…' : 'Generate Slides'}
         </button>
       </div>
 
