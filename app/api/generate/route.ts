@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     {
       role: "system",
       content:
-        "Respond ONLY with raw JSON. No explanation. Format: {\"problem\": \"...\", \"solution\": \"...\"}. Do not include any other text.",
+        "Respond ONLY with JSON. Do not say anything else. Format: {\"problem\": \"...\", \"solution\": \"...\"}",
     },
     {
       role: "user",
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         "X-Title": "GPTBoost AI Deck Generator",
       },
       body: JSON.stringify({
-        model: "mistralai/mixtral-8x7b", // НАДІЙНІШЕ НІЖ GPT
+        model: "mistralai/mixtral-8x7b",
         messages,
         temperature: 0.7,
       }),
@@ -32,17 +32,19 @@ export async function POST(req: Request) {
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content || "";
 
-    console.log("🧠 GPT response text:", text);
+    console.log("🧠 GPT response text:", JSON.stringify(text));
+
+    if (!text || text.length < 5) {
+      return new Response(JSON.stringify({ error: "Empty response from GPT", raw: text }), {
+        status: 500,
+      });
+    }
 
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
-      return new Response(
-        JSON.stringify({
-          error: "No valid JSON found",
-          raw: text,
-        }),
-        { status: 500 }
-      );
+      return new Response(JSON.stringify({ error: "No valid JSON found", raw: text }), {
+        status: 500,
+      });
     }
 
     const parsed = JSON.parse(jsonMatch[0]);
