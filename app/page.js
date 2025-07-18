@@ -1,32 +1,20 @@
-
-// Main homepage file
 export default function Home() {
   return (
-    <main className="min-h-screen p-8 bg-white text-black">
-      <h1 className="text-4xl font-bold mb-4">GPTBoost</h1>
-      <p className="mb-6">AI-powered deck generator and business automations.</p>
-      <form className="mb-6">
-        <input type="text" placeholder="Your project name" className="border p-2 mr-2" />
-        <button className="bg-black text-white px-4 py-2">Generate Slides</button>
-      </form>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="border p-4 shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Slide 1</h2>
-          <p>Welcome to your automated pitch deck.</p>
-        </div>
-        <div className="border p-4 shadow-md">
-          <h2 className="text-xl font-semibold mb-2">Slide 2</h2>
-          <p>This slide was generated using GPTBoost AI.</p>
-        </div>
-      </div>
-      <div className="mt-10">
-        <a
-          href="https://www.fiverr.com/vasysjr"
-          className="inline-block bg-green-600 text-white px-6 py-3 rounded mt-4"
-        >
-          Hire me on Fiverr
-        </a>
-      </div>
+    <main className="min-h-screen bg-black text-white px-6 py-20 flex flex-col items-center justify-center text-center">
+      <h1 className="text-4xl md:text-6xl font-bold max-w-4xl leading-tight">
+        Automate your business with <span className="text-purple-400">ChatGPT</span>
+      </h1>
+      <p className="mt-6 text-lg md:text-xl max-w-xl text-gray-300">
+        Save hours every week with smart tools that generate presentations, send dynamic emails, and connect to your systems — built for founders & coaches.
+      </p>
+      <a
+        href="https://www.fiverr.com/s/bdjQPlY"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-8 bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-xl text-lg transition"
+      >
+        🔧 Order on Fiverr
+      </a>
     </main>
   );
 }
