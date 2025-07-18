@@ -4,8 +4,8 @@ export async function POST(req: Request) {
   const messages = [
     {
       role: "system",
-      content:
-        "You are an expert startup pitch writer. Respond ONLY in JSON format with keys: problem, solution.",
+      content: "You are an API backend. Your ONLY job is to return pure JSON with two keys: 'problem' and 'solution'. Do NOT include any extra text, explanations or formatting — only valid JSON.",
+
     },
     {
       role: "user",
