@@ -143,7 +143,7 @@ export default function Page() {
       rel="noopener noreferrer"
       className="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition"
     >
-      🎯 Найми мене на Fiverr
+      🎯Hire me on Fiverr
     </a>
   </div>
 </footer>
