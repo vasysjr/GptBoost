@@ -16,10 +16,17 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({ inputs: prompt }),
     });
+    console.log("📤 Prompt:", prompt);
+console.log("📥 HuggingFace status:", response.status);
+
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("❌ HuggingFace API error:", errorText);
+console.error("❌ HuggingFace API error:", errorText);
+return new Response(
+  JSON.stringify({ error: "Image generation failed", raw: errorText }),
+  { status: 500 }
+);
       return new Response(
         JSON.stringify({ error: "Image generation failed", raw: errorText }),
         { status: 500 }
