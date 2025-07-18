@@ -29,10 +29,17 @@ export async function POST(req: Request) {
       }),
     });
 
+    // --- Перевірка статусу відповіді ---
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error("❌ GPT error response:", errText);
+      return new Response(JSON.stringify({ error: "GPT error", raw: errText }), { status: 500 });
+    }
+
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content || "";
 
-    console.log("🧠 GPT response text:", JSON.stringify(text));
+    console.log("🧠 GPT response text:", text);
 
     if (!text || text.length < 5) {
       return new Response(JSON.stringify({ error: "Empty response from GPT", raw: text }), {
@@ -51,9 +58,8 @@ export async function POST(req: Request) {
     return new Response(JSON.stringify(parsed), { status: 200 });
   } catch (err: any) {
     console.error("❌ API error:", err);
-    return new Response(
-      JSON.stringify({ error: "API call failed", message: err.message }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ error: "API call failed", message: err.message }), {
+      status: 500,
+    });
   }
 }
