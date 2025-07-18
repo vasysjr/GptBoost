@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   try {
     const response = await fetch(
-      "https://api-inference.huggingface.co/models/stabilityai/black-forest-labs/FLUX.1-dev",
+      "https://api-inference.huggingface.co/models/stabilityai/black-forest-labs/FLUX.1-schnell",
       {
         method: "POST",
         headers: {
