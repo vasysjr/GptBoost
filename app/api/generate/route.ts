@@ -41,3 +41,11 @@ export async function POST(req: Request) {
     }
 
     const parsed = JSON.parse(jsonMatch[0]);
+    return new Response(JSON.stringify(parsed), { status: 200 });
+  } catch (err: any) {
+    console.error("❌ API error:", err);
+    return new Response(JSON.stringify({ error: "API call failed", message: err.message }), {
+      status: 500,
+    });
+  }
+}
