@@ -1,12 +1,12 @@
 'use client';
-import { useState } from 'react'
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Home() {
-  const [input, setInput] = useState('')
-  const [slides, setSlides] = useState([])
+export default function Page() {
+  const [input, setInput] = useState('');
+  const [slides, setSlides] = useState([]);
 
   const handleGenerate = () => {
-    // Mock slides — replace with real API later
     setSlides([
       {
         title: 'Problem',
@@ -16,8 +16,8 @@ export default function Home() {
         title: 'Solution',
         description: 'GPTBoost instantly generates high-quality slide content powered by AI, tailored to your business idea.',
       },
-    ])
-  }
+    ]);
+  };
 
   return (
     <main className="min-h-screen bg-gray-50 text-gray-800 px-4 py-12 flex flex-col items-center">
@@ -27,7 +27,9 @@ export default function Home() {
       </p>
 
       <div className="w-full max-w-xl mb-10">
-        <p className="text-sm text-gray-500 mb-2">Type your business idea, and we’ll generate the first 2 slides of your pitch deck.</p>
+        <p className="text-sm text-gray-500 mb-2">
+          Type your business idea, and we’ll generate the first 2 slides of your pitch deck.
+        </p>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -44,16 +46,22 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl w-full">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-2xl p-6 shadow-md border border-gray-100"
-          >
-            <h3 className="text-xl font-bold mb-2">{slide.title}</h3>
-            <p className="text-gray-600">{slide.description}</p>
-          </div>
-        ))}
+        <AnimatePresence>
+          {slides.map((slide, index) => (
+            <motion.div
+              key={slide.title}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
+            >
+              <h3 className="text-xl font-bold mb-2">{slide.title}</h3>
+              <p className="text-gray-600">{slide.description}</p>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </main>
-  )
+  );
 }
