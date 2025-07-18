@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         "X-Title": "GPTBoost AI Deck Generator",
       },
       body: JSON.stringify({
-        model: "mistralai/mixtral-8x7b",
+        model: "mistralai/mixtral-8x7b-instruct",
         messages,
         temperature: 0.7,
       }),
