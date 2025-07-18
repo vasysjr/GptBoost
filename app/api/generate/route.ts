@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       }),
     });
 
-    // --- Перевірка статусу відповіді ---
+    // --- Перевірка статусу відповідіі ---
     if (!response.ok) {
       const errText = await response.text();
       console.error("❌ GPT error response:", errText);
