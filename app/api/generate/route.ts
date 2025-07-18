@@ -4,8 +4,21 @@ export async function POST(req: Request) {
   const messages = [
     {
       role: "system",
-      content:
-        "Respond ONLY with JSON. Do not say anything else. Format: {\"problem\": \"...\", \"solution\": \"...\"}",
+      content: `You are a startup presentation assistant. Create a startup pitch deck structure with 6 slides based on the idea the user provides.
+
+Return JSON ONLY in this format:
+[
+  {
+    "slide_title": "Problem",
+    "content": [
+      "Bullet 1",
+      "Bullet 2"
+    ],
+    "image_prompt": "Prompt for AI image generation"
+  },
+  ...
+]
+Do not say anything outside of this JSON array.`,
     },
     {
       role: "user",
@@ -29,7 +42,6 @@ export async function POST(req: Request) {
       }),
     });
 
-    // --- Перевірка статусу відповідіі ---
     if (!response.ok) {
       const errText = await response.text();
       console.error("❌ GPT error response:", errText);
@@ -47,15 +59,17 @@ export async function POST(req: Request) {
       });
     }
 
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    const jsonMatch = text.match(/\[[\s\S]*\]/); // масив слайдів
+
     if (!jsonMatch) {
-      return new Response(JSON.stringify({ error: "No valid JSON found", raw: text }), {
+      return new Response(JSON.stringify({ error: "No valid JSON array found", raw: text }), {
         status: 500,
       });
     }
 
-    const parsed = JSON.parse(jsonMatch[0]);
-    return new Response(JSON.stringify(parsed), { status: 200 });
+    const parsedSlides = JSON.parse(jsonMatch[0]);
+
+    return new Response(JSON.stringify({ slides: parsedSlides }), { status: 200 });
   } catch (err: any) {
     console.error("❌ API error:", err);
     return new Response(JSON.stringify({ error: "API call failed", message: err.message }), {
