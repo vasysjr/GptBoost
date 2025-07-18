@@ -132,9 +132,22 @@ export default function Page() {
             </motion.div>
           ))}
         </AnimatePresence>
-        <footer className="mt-16 text-sm text-gray-400 text-center">
-  Built with ❤️ by GPTBoost · © {new Date().getFullYear()}
+        <footer className="mt-10 text-center text-sm text-gray-500">
+  <div>
+    Built with ❤️ by GPTBoost · © 2025
+  </div>
+  <div className="mt-2">
+    <a
+      href="https://www.fiverr.com/s/WEXav2R"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+    >
+      🎯 Найми мене на Fiverr
+    </a>
+  </div>
 </footer>
+
 
       </div>
     </main>
