@@ -4,7 +4,7 @@ export const metadata = {
   title: 'GPTBoost',
   description: 'AI-powered deck generator and business automations.',
   icons: {
-    icon: '/favicon.ico', // або .png, якщо такий у тебе
+    icon: './favicon.ico', // або .png, якщо такий у тебе
   },
 };
 
